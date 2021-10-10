@@ -28,7 +28,8 @@ export class LocalProvider extends BaseProvider {
   public async upload(file: UploadedFile, key: string): Promise<any> {
     const filePath = this.path(key)
     await fs.promises.mkdir(path.dirname(filePath), { recursive: true })
-    await fs.promises.rename(file.path, filePath)
+    await fs.promises.copyFile(file.path, filePath)
+    await fs.promises.unlink(file.path)
   }
 
   public async delete(key: string, bucket: string): Promise<any> {
